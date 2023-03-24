@@ -158,26 +158,12 @@ class OpenPyXL:
     def save_file()-> None:
         # 크롤링 결과
         results : List[List[Dict[str,Union[str,int]]]] = Coupang().main()
-
-        wb = Workbook()
-        ws = wb.active
-        ws.append(['리뷰 내용'])
-
-        row = 2
+       
+        # 크롤링 결과 모음
+        review_collection=[]
 
         for x in results:
             for result in x :
-                ws[f'A{row}'] = result['review_content']
-                print("sadfasdf"+result['review_content'])
-                row += 1
-
-        savePath : str = os.path.abspath('쿠팡-상품리뷰-크롤링')
-        fileName : str = results[0][0]['prod_name'] + '.xlsx'
-
-        if not os.path.exists(savePath):
-            os.mkdir(savePath)
-
-        wb.save(os.path.join(savePath,fileName))
-        wb.close()
-
-        print(f'파일 저장완료!\n\n{os.path.join(savePath,fileName)}')
+                review_collection.append(result['review_content'])
+        print(review_collection)
+        return review_collection

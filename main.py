@@ -1,4 +1,6 @@
 from src.crawl import OpenPyXL
 
 if __name__ == '__main__':
-    OpenPyXL.save_file()
+    review_collection=OpenPyXL.save_file()
+    
+print(review_collection)
