@@ -7,6 +7,7 @@ import os
 import re
 import requests as rq
 import json
+import re
 
 def get_headers(
     key: str,
@@ -43,7 +44,7 @@ class Coupang:
         prod_code : str = self.get_product_code(url=URL)
 
         # URL 주소 재가공
-        URLS : List[str] = [f'https://www.coupang.com/vp/product/reviews?productId={prod_code}&page={page}&size=5&sortBy=ORDER_SCORE_ASC&ratings=&q=&viRoleCode=3&ratingSummary=true' for page in range(1,self.input_page_count() + 1)]
+        URLS : List[str] = [f'https://www.coupang.com/vp/product/reviews?productId={prod_code}&page={page}&size=5&sortBy=ORDER_SCORE_ASC&ratings=&q=&viRoleCode=3&ratingSummary=true' for page in range(1,self.get_review_count(URL))]
 
         # __headers에 referer 키 추가
         self.__headers['referer'] = URL
@@ -57,10 +58,11 @@ class Coupang:
         with session.get(url=url,headers=self.__headers) as response :
             html = response.text
             soup = bs(html,'html.parser')
-
+            
             # Article Boxes
             article_lenth = len(soup.select('article.sdp-review__article__list'))
 
+            flag=0
             for idx in range(article_lenth):
                 dict_data : Dict[str,Union[str,int]] = dict()
                 articles = soup.select('article.sdp-review__article__list')
@@ -97,6 +99,7 @@ class Coupang:
                 review_content = articles[idx].select_one('div.sdp-review__article__list__review > div')
                 if review_content == None :
                     review_content = '등록된 리뷰내용이 없습니다'
+                    flag=1
                 else:
                     review_content = re.sub('[\n\t]','',review_content.text.strip())
 
@@ -106,6 +109,7 @@ class Coupang:
                     answer = '맛 평가 없음'
                 else:
                     answer = answer.text.strip()
+                
 
                 dict_data['prod_name'] = prod_name
                 dict_data['user_name'] = user_name
@@ -115,8 +119,9 @@ class Coupang:
                 dict_data['answer'] = answer
 
                 save_data.append(dict_data)
-
                 print(dict_data , '\n')
+                if(flag==1):
+                    return save_data
 
             time.sleep(1)
 
@@ -152,6 +157,21 @@ class Coupang:
                 continue
 
             return int(page_count)
+        
+    # 입력: 읽어드릴 URL
+    # 출력: 페이지 수 출력
+    # 동작: 전체리뷰/한 페이지에 존재하는 리뷰(5) + 1    
+    def get_review_count(self, url):
+        headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36", "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3", "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3"}
+        res = rq.get(url, headers=headers)
+        res.raise_for_status()
+
+        soup = bs(res.text, "lxml")
+        items = soup.find_all("span", attrs={"class":re.compile("^count")})
+        count_str = items[0].text # Tag 객체에서 텍스트만 추출하여 저장
+        count = int(''.join(filter(str.isdigit, count_str)))
+        return int(count / 5) + 1
+        
 
 class OpenPyXL:
     @staticmethod
@@ -165,5 +185,4 @@ class OpenPyXL:
         for x in results:
             for result in x :
                 review_collection.append(result['review_content'])
-        print(review_collection)
         return review_collection
