@@ -48,9 +48,18 @@ class Coupang:
 
         # __headers에 referer 키 추가
         self.__headers['referer'] = URL
-
+        
+        #웹사이트에서 리뷰 읽어드리면서 내용없으면 리턴
         with rq.Session() as session:
-            return [self.fetch(url=url,session=session) for url in URLS]
+            data=[]
+            for url in URLS:
+                data_s=self.fetch(url=url,session=session)
+                for i in data_s:
+                    review_content = i['review_content']
+                    if(review_content=="등록된 리뷰내용이 없습니다"): 
+                        return data
+                    data.append(review_content)
+            return data
 
     def fetch(self,url:str,session)-> List[Dict[str,Union[str,int]]]:
         save_data : List[Dict[str,Union[str,int]]] = list()
@@ -119,9 +128,7 @@ class Coupang:
                 dict_data['answer'] = answer
 
                 save_data.append(dict_data)
-                print(dict_data , '\n')
-                if(flag==1):
-                    return save_data
+
 
             time.sleep(1)
 
@@ -145,18 +152,6 @@ class Coupang:
                 continue
             return review_url
 
-    def input_page_count(self)-> int:
-        # Window
-        os.system('cls')
-        # Mac
-        #os.system('clear')
-        while True:
-            page_count : str = input('페이지 수를 입력하세요\n\n:')
-            if not page_count:
-                print('페이지 수가 입력되지 않았습니다\n')
-                continue
-
-            return int(page_count)
         
     # 입력: 읽어드릴 URL
     # 출력: 페이지 수 출력
@@ -177,12 +172,6 @@ class OpenPyXL:
     @staticmethod
     def save_file()-> None:
         # 크롤링 결과
-        results : List[List[Dict[str,Union[str,int]]]] = Coupang().main()
-       
+        results= Coupang().main()
         # 크롤링 결과 모음
-        review_collection=[]
-
-        for x in results:
-            for result in x :
-                review_collection.append(result['review_content'])
-        return review_collection
+        return results
