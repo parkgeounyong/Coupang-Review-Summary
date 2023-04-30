@@ -16,7 +16,7 @@ if __name__ == '__main__':
         adjective_group=Tokenizer(text)
         if len(adjective_group)!=0:
             metadata.append({"prompt": "다음 형용사들은 다수의 돼지 고기 리뷰에서 추출된 형용사들이야. 해당 형용사들을 기반으로 간단한 리뷰를 작성해줘\n"
-                +str(adjective_group), "completion": text})
+                +str(adjective_group).strip('[]'), "completion": text})
 
     # 메타데이터 파일 저장
     with open("fine_truning/metadata.json", "w", encoding="utf-8") as f:
