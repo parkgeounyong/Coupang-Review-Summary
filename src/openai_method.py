@@ -5,6 +5,7 @@ from nltk import Text
 import matplotlib.pyplot as plt
 
 openai.api_key = "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"
+openai.api_base = "https://api.openai.com/v1/models/ft-G8hoYJZpI6g8cYvqJx5SQnAh"
 
 
 def Tokenizer(text):
@@ -30,13 +31,13 @@ def Tokenizer(text):
 
 def extract_element(text):
     # 문장 요약
-    prompt = "! 이후 단어는 고기 상품에 대한 후기들의 반응들이야. 이를 기반으로 고기 상품의 후기를 간단하게 작성해줘\n!"
+    prompt = "다음 형용사들은 다수의 돼지 고기 리뷰에서 추출된 형용사들이야. 해당 형용사들을 기반으로 간단한 리뷰를 작성해줘\n"
     top_adj = Tokenizer(text)
     prompt+="\n형용사: "
     for token in top_adj:
         prompt += token+" "
     completions = openai.Completion.create(
-        engine="davinci",
+        engine="ft-G8hoYJZpI6g8cYvqJx5SQnAh",
         prompt=prompt,
         max_tokens=100,
         n=10,
@@ -45,4 +46,3 @@ def extract_element(text):
     )
     message = completions.choices[0].text.strip()
     return message
-
