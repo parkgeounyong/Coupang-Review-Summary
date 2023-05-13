@@ -60,6 +60,23 @@ class Coupang:
                         return data
                     data.append(review_content)
             return data
+        
+    #입력 상품 목록 페이지, 출력: 개별 상품 url(list형태)
+    def fullPage(full_url)-> List[str]:
+
+        #개별 주소 꺼내서 list에 저장
+        #데이터 긁어오기
+        headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36", "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3", "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3"}
+        res = rq.get(full_url, headers=headers)
+        res.raise_for_status()
+        soup = bs(res.text, "lxml")
+
+        baby_product_links = soup.find_all("a", class_="baby-product-link")
+        hrefs = []
+        for link in baby_product_links:
+            hrefs.append(link.get("href"))
+        return hrefs
+        #개별 주소 list 반환
 
     def fetch(self,url:str,session)-> List[Dict[str,Union[str,int]]]:
         save_data : List[Dict[str,Union[str,int]]] = list()
@@ -134,7 +151,7 @@ class Coupang:
 
             return save_data
 
-    def input_review_url(self)-> str:
+    def input_review_url()-> str:
         while True:
             # Window
             os.system('cls')
@@ -160,8 +177,8 @@ class Coupang:
         headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36", "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3", "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3"}
         res = rq.get(url, headers=headers)
         res.raise_for_status()
-
         soup = bs(res.text, "lxml")
+        
         items = soup.find_all("span", attrs={"class":re.compile("^count")})
         count_str = items[0].text # Tag 객체에서 텍스트만 추출하여 저장
         count = int(''.join(filter(str.isdigit, count_str)))
