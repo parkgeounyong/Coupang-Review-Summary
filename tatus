@@ -1,0 +1,77 @@
+[33mcommit 7eca47094c2cb8320c04cdfa01be5c39cefc58db[m[33m ([m[1;36mHEAD -> [m[1;32msub[m[33m, [m[1;31morigin/sub[m[33m)[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sat May 6 00:28:10 2023 +0900
+
+    update readme.md
+
+[33mcommit c821e13076060bc762a688dc55765129f9d29f58[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sat May 6 00:25:34 2023 +0900
+
+    오류 수정
+
+[33mcommit 326f9465ed6839f5712c1acaefe09fbb3ef804f0[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sat May 6 00:25:23 2023 +0900
+
+    오류 수정
+
+[33mcommit 393cc09ab0279a3b8d9efa3c32e3f83783bfe29d[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sat May 6 00:19:54 2023 +0900
+
+    형용사 출현 횟수 분석 및저장 코드 완료
+
+[33mcommit f8c2bff2dbe25f5ee62b7ab33f61b887485eab4c[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Fri May 5 23:51:38 2023 +0900
+
+    웹과 다른 방향으로 진행
+
+[33mcommit e2cec7d349f96c80a2d3d24b57a261b8cfedbcd7[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sun Apr 30 23:39:38 2023 +0900
+
+    change prompt
+
+[33mcommit 4effe8ea7614376ac379ab38fb6ed75dc2e98d3c[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sun Apr 30 15:23:42 2023 +0900
+
+    create train data 방법 변경: 형용사없는 내용 거부
+
+[33mcommit d685a9ce0ed2dd77ff94cd00f7766f853262b332[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Fri Apr 28 11:56:43 2023 +0900
+
+    create fine turning data code complete
+
+[33mcommit 0308e237b41494659018748c6fc23ec22d989a8a[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Mon Apr 17 15:12:20 2023 +0900
+
+    내용없는 리뷰 읽어드릴 시 지금까지 저장한 데이터만 리턴
+
+[33mcommit bef9adc96df1eb377a2d40180c9cb0d8486acc00[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Mon Apr 17 14:46:37 2023 +0900
+
+    페이지 수 자동 지정
+
+[33mcommit 493dccee6767651e329398ea95e69947db2c3084[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Fri Mar 24 21:02:06 2023 +0900
+
+    Return crawled reviews to a list
+
+[33mcommit cce876437b22fb42b5b07bc67394ca4ed1516aec[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sun Mar 19 15:20:59 2023 +0900
+
+    Update README.md
+
+[33mcommit c58473f30034718ea826a71e3067ec400c18465b[m
+Author: parkgeounyoung <50165260+parkgeounyoung@users.noreply.github.com>
+Date:   Sun Mar 19 15:19:57 2023 +0900
+
+    Initial commit

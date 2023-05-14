@@ -61,6 +61,31 @@ class Coupang:
                     data.append(review_content)
             return data
         
+    def main(self, url)-> List[List[Dict[str,Union[str,int]]]]:
+        # URL 주소
+        URL : str = url
+
+        # URL의 Product Code 추출
+        prod_code : str = self.get_product_code(url=URL)
+
+        # URL 주소 재가공
+        URLS : List[str] = [f'https://www.coupang.com/vp/product/reviews?productId={prod_code}&page={page}&size=5&sortBy=ORDER_SCORE_ASC&ratings=&q=&viRoleCode=3&ratingSummary=true' for page in range(1,self.get_review_count(URL))]
+
+        # __headers에 referer 키 추가
+        self.__headers['referer'] = URL
+        
+        #웹사이트에서 리뷰 읽어드리면서 내용없으면 리턴
+        with rq.Session() as session:
+            data=[]
+            for url in URLS:
+                data_s=self.fetch(url=url,session=session)
+                for i in data_s:
+                    review_content = i['review_content']
+                    if(review_content=="등록된 리뷰내용이 없습니다"): 
+                        return data
+                    data.append(review_content)
+            return data    
+        
     #입력 상품 목록 페이지, 출력: 개별 상품 url(list형태)
     def fullPage(full_url)-> List[str]:
 
@@ -190,5 +215,11 @@ class OpenPyXL:
     def save_file()-> None:
         # 크롤링 결과
         results= Coupang().main()
+        # 크롤링 결과 모음
+        return results
+    
+    def save_file(url)-> None:
+        # 크롤링 결과
+        results= Coupang().main(url)
         # 크롤링 결과 모음
         return results
